@@ -2,6 +2,7 @@ package com.chatop.estate.configuration;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -24,7 +25,8 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 @Configuration
 public class EstateConfig {
 
-    private String jwtKey = "jwtKey";
+    @Value("${MyJwtKey}")
+    private String jwtKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,8 +50,7 @@ public class EstateConfig {
 
     @Bean
     public UserDetailsService users() {
-        UserDetails user = User.builder().username("email").password(passwordEncoder().encode("password")).roles("USER")
-                .build();
+        UserDetails user = User.builder().username("user").password(passwordEncoder().encode("password")).build();
         return new InMemoryUserDetailsManager(user);
     }
 
