@@ -1,8 +1,8 @@
 package com.chatop.estate.repository;
 
-import com.chatop.estate.model.DBUser;
+import com.chatop.estate.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DBUserRepository extends JpaRepository<DBUser, Integer> {
-    public DBUser findByUsername(String username);
+public interface UserRepository extends JpaRepository<Users, Integer> {
+    public Users findByEmail(String email);
 }

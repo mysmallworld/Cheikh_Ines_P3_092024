@@ -4,10 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-import java.sql.Timestamp;
-
-public class UserDto {
+@Data
+public class UsersDto {
 
     @NotNull(message = "Name is required")
     @Size(min = 2, max = 30, message = "Name must contain between 2 and 30 characters")
