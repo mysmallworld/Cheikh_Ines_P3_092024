@@ -4,7 +4,6 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/rental/pom.xml" />
         <option value="$PROJECT_DIR$/estate/pom.xml" />
       </list>
     </option>
