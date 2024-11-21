@@ -1,10 +1,9 @@
 package com.chatop.estate.service;
 
-import com.chatop.estate.Dto.LoginUserDto;
-import com.chatop.estate.Dto.RegisterUserDto;
-import com.chatop.estate.Dto.UserResponseDto;
+import com.chatop.estate.dto.LoginUserDto;
+import com.chatop.estate.dto.RegisterUserDto;
+import com.chatop.estate.dto.UserResponseDto;
 import com.chatop.estate.configuration.AuthConfig;
-import com.chatop.estate.mapper.RegisterUserMapper;
 import com.chatop.estate.mapper.UserMapper;
 import com.chatop.estate.model.User;
 import com.chatop.estate.repository.UserRepository;
@@ -26,9 +25,6 @@ public class AuthService {
     private AuthConfig authconfig;
 
     @Autowired
-    RegisterUserMapper registerUserMapper;
-
-    @Autowired
     UserMapper userMapper;
 
     public String registerUser(RegisterUserDto userDto) {
@@ -37,7 +33,7 @@ public class AuthService {
             if (user != null && user.getEmail().equals(userDto.getEmail())) {
                 throw new Exception("User already exists");
             }
-            User newUser = registerUserMapper.toEntity(userDto);
+            User newUser = userMapper.toEntity(userDto);
             newUser.setPassword(authconfig.passwordEncoder().encode(newUser.getPassword()));
             userRepository.save(newUser);
             String token = jwtService.generateToken(newUser);
