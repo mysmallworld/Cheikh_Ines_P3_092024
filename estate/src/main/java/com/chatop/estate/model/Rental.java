@@ -9,15 +9,17 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Users {
-
+@Table(name="Rentals")
+public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private String name;
-    private String email;
-    private String password;
+    private Double surface;
+    private Double price;
+    private String picture;
+    private String description;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -27,4 +29,7 @@ public class Users {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name="owner_id",nullable = false)
+    private User user;
 }

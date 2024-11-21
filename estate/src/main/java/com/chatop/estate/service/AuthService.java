@@ -6,7 +6,7 @@ import com.chatop.estate.Dto.UserResponseDto;
 import com.chatop.estate.configuration.AuthConfig;
 import com.chatop.estate.mapper.RegisterUserMapper;
 import com.chatop.estate.mapper.UserMapper;
-import com.chatop.estate.model.Users;
+import com.chatop.estate.model.User;
 import com.chatop.estate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,11 +33,11 @@ public class AuthService {
 
     public String registerUser(RegisterUserDto userDto) {
         try {
-            Users user = userRepository.findByEmail(userDto.getEmail());
+            User user = userRepository.findByEmail(userDto.getEmail());
             if (user != null && user.getEmail().equals(userDto.getEmail())) {
                 throw new Exception("User already exists");
             }
-            Users newUser = registerUserMapper.toEntity(userDto);
+            User newUser = registerUserMapper.toEntity(userDto);
             newUser.setPassword(authconfig.passwordEncoder().encode(newUser.getPassword()));
             userRepository.save(newUser);
             String token = jwtService.generateToken(newUser);
@@ -49,7 +49,7 @@ public class AuthService {
 
     public String loginUser(LoginUserDto userDto) {
         try {
-            Users user = userRepository.findByEmail(userDto.getEmail());
+            User user = userRepository.findByEmail(userDto.getEmail());
             Boolean isSamePassword = authconfig.passwordEncoder().matches(userDto.getPassword(), user.getPassword());
             if ((user != null) && !isSamePassword) {
                 throw new Exception("User password not same");
@@ -70,7 +70,7 @@ public class AuthService {
 
             Map<String, Object> userToken = jwtService.decodeToken(token);
             String userEmail = (String) userToken.get("sub");
-            Users user = userRepository.findByEmail(userEmail);
+            User user = userRepository.findByEmail(userEmail);
 
             if (user == null) {
                 throw new RuntimeException("User not found");
