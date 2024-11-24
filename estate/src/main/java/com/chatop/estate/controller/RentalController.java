@@ -33,17 +33,17 @@ public class RentalController {
                              @RequestParam("surface") Double surface,
                              @RequestParam("price") Double price,
                              @RequestParam("description") String description,
-                             @RequestPart(value = "picture", required = false) MultipartFile picture){
+                             @RequestParam("picture") MultipartFile picture){
         return rentalService.postRental(id, name, surface, price, description, picture);
     }
 
     @PutMapping("/{id}")
     public String updateRental(@PathVariable("id") String id,
-                               @RequestParam("name") String name,
-                               @RequestParam("surface") Double surface,
-                               @RequestParam("price") Double price,
-                               @RequestParam("description") String description,
-                               @RequestPart(value = "picture", required = false) MultipartFile picture){
+                               @RequestPart(value="name", required = false) String name,
+                               @RequestPart(value="surface", required = false) Double surface,
+                               @RequestPart(value="price", required = false) Double price,
+                               @RequestPart(value="description", required = false) String description,
+                               @RequestPart(value="picture", required = false) MultipartFile picture){
         return rentalService.updateRental(id, name, surface, price, description, picture);
     }
 }

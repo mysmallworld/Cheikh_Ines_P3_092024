@@ -10,11 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +22,9 @@ public class RentalService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PictureService pictureService;
 
     @Autowired
     private RentalMapper rentalMapper;
@@ -58,28 +58,11 @@ public class RentalService {
             rental.setSurface(surface);
             rental.setPrice(price);
             rental.setDescription(description);
+            pictureService.selectPicture(picture, rental);
 
             User owner = userRepository.findById(ownerId)
                     .orElseThrow(() -> new RuntimeException("Owner not found"));
             rental.setUser(owner);
-
-            if (picture != null && !picture.isEmpty()) {
-
-                String fileName = UUID.randomUUID().toString() + "_" + picture.getOriginalFilename();
-
-                String uploadDir = "uploads/";
-                File uploadFile = new File(uploadDir + fileName);
-
-                if (!uploadFile.getParentFile().exists()) {
-                    uploadFile.getParentFile().mkdirs();
-                }
-
-                picture.transferTo(uploadFile);
-
-                rental.setPicture(uploadFile.getAbsolutePath());
-            } else {
-                rental.setPicture(null);
-            }
 
             LocalDateTime now = LocalDateTime.now();
             rental.setCreatedAt(now);
@@ -88,8 +71,6 @@ public class RentalService {
             rentalRepository.save(rental);
 
             return "message: Rental created!";
-        } catch (IOException e) {
-            throw new RuntimeException("An error occurred while processing the picture: " + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException("An error occurred during rental posting: " + e.getMessage());
         }
@@ -101,16 +82,13 @@ public class RentalService {
             Rental rental = rentalRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Rental not found"));
 
-            rental.setName(name);
-            rental.setSurface(surface);
-            rental.setPrice(price);
-            //rental.setPicture(rentalDto.getPicture());
-            rental.setDescription(description);
+            rental.setName(name != null ? name : rental.getName());
+            rental.setSurface(surface != null ? surface : rental.getSurface());
+            rental.setPrice(price != null ? price : rental.getPrice());
+            rental.setDescription(description != null ? description : rental.getDescription());
 
-            if (rental.getUser().getId() != null) {
-                User owner = userRepository.findById(rental.getUser().getId())
-                        .orElseThrow(() -> new RuntimeException("Owner not found"));
-                rental.setUser(owner);
+            if(picture != null){
+                pictureService.selectPicture(picture, rental);
             }
 
             rentalRepository.save(rental);

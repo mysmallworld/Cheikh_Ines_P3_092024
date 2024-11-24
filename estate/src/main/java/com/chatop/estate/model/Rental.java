@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name="Rentals")
+@Table(name="rentals")
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
