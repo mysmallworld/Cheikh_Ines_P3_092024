@@ -1,12 +1,13 @@
 package com.chatop.estate.controller;
 
-import com.chatop.estate.Dto.LoginUserDto;
-import com.chatop.estate.Dto.RegisterUserDto;
-import com.chatop.estate.Dto.UserResponseDto;
+import com.chatop.estate.dto.LoginUserDto;
+import com.chatop.estate.dto.RegisterUserDto;
+import com.chatop.estate.dto.UserResponseDto;
 import com.chatop.estate.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private AuthService authService;
@@ -15,23 +16,18 @@ public class AuthController {
         this.authService = authService;
     }
 
-    private final String api = "/api/auth";
-
-    @PostMapping(api+"/register")
+    @PostMapping("/register")
     public String registerUser(@RequestBody RegisterUserDto userDto){
-        String registerUser = authService.registerUser(userDto);
-        return registerUser;
+        return authService.registerUser(userDto);
     }
 
-    @PostMapping(api+"/login")
+    @PostMapping("/login")
     public String loginUser(@RequestBody LoginUserDto userDto) {
-        String loginUser = authService.loginUser(userDto);
-        return loginUser;
+        return authService.loginUser(userDto);
     }
 
-    @GetMapping(api+"/me")
+    @GetMapping("/me")
     public UserResponseDto getUser(@RequestHeader("Authorization") String authorizationHeader) {
-        UserResponseDto getUser = authService.getUser(authorizationHeader);
-        return getUser;
+        return authService.getUser(authorizationHeader);
     }
 }

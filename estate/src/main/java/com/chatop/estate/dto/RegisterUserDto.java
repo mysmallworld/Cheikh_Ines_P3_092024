@@ -1,4 +1,4 @@
-package com.chatop.estate.Dto;
+package com.chatop.estate.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

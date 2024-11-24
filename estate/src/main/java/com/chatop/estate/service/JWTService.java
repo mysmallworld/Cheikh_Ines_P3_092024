@@ -1,6 +1,6 @@
 package com.chatop.estate.service;
 
-import com.chatop.estate.model.Users;
+import com.chatop.estate.model.User;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class JWTService {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public String generateToken(Users user) {
+    public String generateToken(User user) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
