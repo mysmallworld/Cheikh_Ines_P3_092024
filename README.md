@@ -37,11 +37,11 @@ Before you begin, ensure you have the following installed:
 ## **Configuration**
 You need to add environement variables into estate/src/main/resources/application.proporties :  
 
-DBUrl: url of your database.  
-DBUsername: username of your database.  
-DBPassword: password of your database.  
-MyJwtKey: a jwt key who can be generate in a web site (JWT.io). 
-ProjectPath: the path where you have clone the project without user root.
+**DBUrl**: url of your database.  
+**DBUsername**: username of your database.  
+**DBPassword**: password of your database.  
+**MyJwtKey**: a jwt key who can be generate in a web site ([JWT.io](https://jwt.io/)).  
+**ProjectPath**: the path where you have clone the project without user root.
 
 ## **Installation**
 Follow these steps to install the project:
