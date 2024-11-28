@@ -15,10 +15,19 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(length = 30)
     private String name;
+
+    @Column(length = 10000)
     private Double surface;
+
+    @Column(length = 1000000000)
     private Double price;
+
+    @Column(length = 100)
     private String picture;
+
+    @Column(length = 200)
     private String description;
 
     @CreatedDate
@@ -30,6 +39,6 @@ public class Rental {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name="owner_id",nullable = false)
+    @JoinColumn(name="owner_id", nullable = false)
     private User user;
 }

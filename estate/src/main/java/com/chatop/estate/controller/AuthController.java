@@ -4,6 +4,7 @@ import com.chatop.estate.dto.LoginUserDto;
 import com.chatop.estate.dto.RegisterUserDto;
 import com.chatop.estate.dto.UserResponseDto;
 import com.chatop.estate.service.AuthService;
+import com.chatop.estate.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,8 +13,11 @@ public class AuthController {
 
     private AuthService authService;
 
-    public AuthController(AuthService authService) {
+    private UserService userService;
+
+    public AuthController(AuthService authService, UserService userService) {
         this.authService = authService;
+        this.userService = userService;
     }
 
     @PostMapping("/register")
@@ -28,6 +32,6 @@ public class AuthController {
 
     @GetMapping("/me")
     public UserResponseDto getUser(@RequestHeader("Authorization") String authorizationHeader) {
-        return authService.getUser(authorizationHeader);
+        return userService.getUser(authorizationHeader);
     }
 }

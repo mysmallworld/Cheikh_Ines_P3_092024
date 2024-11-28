@@ -17,8 +17,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(length = 20)
     private String name;
+
+    @Column(length = 50)
     private String email;
+
+    @Column(length = 20)
     private String password;
 
     @CreatedDate
