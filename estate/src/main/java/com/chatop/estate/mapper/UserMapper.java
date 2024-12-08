@@ -19,18 +19,19 @@ public class UserMapper {
         );
     }
 
-    public User toEntity(RegisterUserDto newUserDto){
-        if(newUserDto == null){
+    public User toEntity(RegisterUserDto newUserDto) {
+        if (newUserDto == null) {
             return null;
         }
-        User newUser = new User();
-        newUser.setEmail(newUserDto.getEmail());
-        newUser.setPassword(newUserDto.getPassword());
-        newUser.setName(newUserDto.getName());
-        LocalDateTime now = LocalDateTime.now();
-        newUser.setCreatedAt(now);
-        newUser.setUpdatedAt(now);
 
-        return newUser;
+        LocalDateTime now = LocalDateTime.now();
+
+        return User.builder()
+                .email(newUserDto.getEmail())
+                .password(newUserDto.getPassword())
+                .name(newUserDto.getName())
+                .createdAt(now)
+                .updatedAt(now)
+                .build();
     }
 }

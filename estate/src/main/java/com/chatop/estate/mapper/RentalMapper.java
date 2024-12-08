@@ -20,12 +20,16 @@ public class RentalMapper {
     }
 
     public Rental toEntity(RentalDto rentalDto) {
-        Rental rental = new Rental();
-        rental.setName(rentalDto.getName());
-        rental.setSurface(rentalDto.getSurface());
-        rental.setPrice(rentalDto.getPrice());
-        rental.setPicture(rentalDto.getPicture());
-        rental.setDescription(rentalDto.getDescription());
-        return rental;
+        if (rentalDto == null) {
+            return null;
+        }
+
+        return Rental.builder()
+                .name(rentalDto.getName())
+                .surface(rentalDto.getSurface())
+                .price(rentalDto.getPrice())
+                .picture(rentalDto.getPicture())
+                .description(rentalDto.getDescription())
+                .build();
     }
 }
