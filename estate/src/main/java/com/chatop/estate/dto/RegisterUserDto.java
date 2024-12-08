@@ -9,43 +9,17 @@ import lombok.Data;
 @Data
 public class RegisterUserDto {
 
-    @NotNull(message = "Name is required")
+    @NotNull()
     @Size(min = 2, max = 30, message = "Name must contain between 2 and 30 characters")
     private String name;
 
-    @NotNull(message = "Email is required")
+    @NotNull()
     @Email(message = "Email must be valid")
     private String email;
 
-    @NotNull(message = "Password is required")
+    @NotNull()
     @Size(min = 8, max = 20, message = "Password must contain between 8 and 20 characters")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
             message = "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character")
     private String password;
-
-    public @NotNull(message = "Name is required") @Size(min = 2, max = 30, message = "Name must contain between 2 and 30 characters") String getName() {
-        return name;
-    }
-
-    public void setName(@NotNull(message = "Name is required") @Size(min = 2, max = 30, message = "Name must contain between 2 and 30 characters") String name) {
-        this.name = name;
-    }
-
-    public @NotNull(message = "Email is required") @Email(message = "Email must be valid") String getEmail() {
-        return email;
-    }
-
-    public void setEmail(@NotNull(message = "Email is required") @Email(message = "Email must be valid") String email) {
-        this.email = email;
-    }
-
-    public @NotNull(message = "Password is required") @Size(min = 8, max = 20, message = "Password must contain between 8 and 20 characters") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
-            message = "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character") String getPassword() {
-        return password;
-    }
-
-    public void setPassword(@NotNull(message = "Password is required") @Size(min = 8, max = 20, message = "Password must contain between 8 and 20 characters") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
-            message = "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character") String password) {
-        this.password = password;
-    }
 }

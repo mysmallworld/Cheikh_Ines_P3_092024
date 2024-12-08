@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalController {
 
-    private RentalService rentalService;
+    private final RentalService rentalService;
 
     public RentalController(RentalService rentalService) {
         this.rentalService = rentalService;
@@ -23,12 +24,12 @@ public class RentalController {
     }
 
     @GetMapping("/{id}")
-    public RentalDto getRental(@PathVariable String id){
+    public RentalDto getRental(@PathVariable UUID id){
         return rentalService.getRental(id);
     }
 
     @PostMapping("/{id}")
-    public String postRental(@PathVariable("id") String id,
+    public String postRental(@PathVariable("id") UUID id,
                              @RequestParam("name") String name,
                              @RequestParam("surface") Double surface,
                              @RequestParam("price") Double price,
@@ -38,7 +39,7 @@ public class RentalController {
     }
 
     @PutMapping("/{id}")
-    public String updateRental(@PathVariable("id") String id,
+    public String updateRental(@PathVariable("id") UUID id,
                                @RequestPart(value="name", required = false) String name,
                                @RequestPart(value="surface", required = false) Double surface,
                                @RequestPart(value="price", required = false) Double price,

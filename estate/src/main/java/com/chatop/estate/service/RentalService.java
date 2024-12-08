@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +41,7 @@ public class RentalService {
         }
     }
 
-    public RentalDto getRental(String id) {
+    public RentalDto getRental(UUID id) {
         try {
             Rental rental = rentalRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Rental not found"));
@@ -50,7 +51,7 @@ public class RentalService {
         }
     }
 
-    public String postRental(String ownerId, String name, Double surface, Double price, String description, MultipartFile picture) {
+    public String postRental(UUID ownerId, String name, Double surface, Double price, String description, MultipartFile picture) {
         try {
 
             Rental rental = new Rental();
@@ -77,7 +78,7 @@ public class RentalService {
     }
 
 
-    public String updateRental(String id, String name, Double surface, Double price, String description, MultipartFile picture) {
+    public String updateRental(UUID id, String name, Double surface, Double price, String description, MultipartFile picture) {
         try {
             Rental rental = rentalRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Rental not found"));
