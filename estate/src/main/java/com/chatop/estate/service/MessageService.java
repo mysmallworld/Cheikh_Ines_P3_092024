@@ -9,7 +9,6 @@ import com.chatop.estate.repository.RentalRepository;
 import com.chatop.estate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,7 +30,7 @@ public class MessageService {
     @Autowired
     MessageMapper messageMapper;
 
-    public void postMessage(String message, String authorizationHeader){
+    public String postMessage(String message, String authorizationHeader){
         try {
             String userEmail = userService.getUser(authorizationHeader).getEmail();
             User user = userRepository.findByEmail(userEmail);
@@ -40,6 +39,7 @@ public class MessageService {
 
             Message newMessage = messageMapper.toEntity(message, user, rental);
             messageRepository.save(newMessage);
+            return "Message send with success";
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

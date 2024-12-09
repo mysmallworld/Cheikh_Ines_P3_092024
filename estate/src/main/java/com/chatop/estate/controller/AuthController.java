@@ -8,6 +8,8 @@ import com.chatop.estate.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,8 +34,9 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @PostMapping("/register")
-    public String registerUser(@RequestBody RegisterUserDto userDto){
-        return authService.registerUser(userDto);
+    public ResponseEntity<String> registerUser(@RequestBody RegisterUserDto userDto){
+        String token = authService.registerUser(userDto);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @Operation(
@@ -45,8 +48,9 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Bad informations")
     })
     @PostMapping("/login")
-    public String loginUser(@RequestBody LoginUserDto userDto) {
-        return authService.loginUser(userDto);
+    public ResponseEntity<String> loginUser(@RequestBody LoginUserDto userDto) {
+        String token = authService.loginUser(userDto);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @Operation(
@@ -58,7 +62,8 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/me")
-    public UserResponseDto getUser(@RequestHeader("Authorization") String authorizationHeader) {
-        return userService.getUser(authorizationHeader);
+    public ResponseEntity<UserResponseDto> getUser(@RequestHeader("Authorization") String authorizationHeader) {
+        UserResponseDto userResponseDto = userService.getUser(authorizationHeader);
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 }

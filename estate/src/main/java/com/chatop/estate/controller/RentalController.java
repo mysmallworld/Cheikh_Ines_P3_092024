@@ -5,6 +5,8 @@ import com.chatop.estate.service.RentalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,8 +32,9 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("")
-    public List<RentalDto> getAllRentals(){
-        return rentalService.getAllRentals();
+    public ResponseEntity<List<RentalDto>> getAllRentals(){
+        List<RentalDto> listRentalDto = rentalService.getAllRentals();
+        return new ResponseEntity<>(listRentalDto, HttpStatus.OK);
     }
 
     @Operation(
@@ -43,8 +46,9 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/{id}")
-    public RentalDto getRental(@PathVariable UUID id){
-        return rentalService.getRental(id);
+    public ResponseEntity<RentalDto> getRental(@PathVariable UUID id){
+        RentalDto rentalDto = rentalService.getRental(id);
+        return new ResponseEntity<>(rentalDto, HttpStatus.OK);
     }
 
     @Operation(
@@ -56,13 +60,14 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PostMapping("/{id}")
-    public String postRental(@PathVariable("id") UUID id,
+    public ResponseEntity<String> postRental(@PathVariable("id") UUID id,
                              @RequestParam("name") String name,
                              @RequestParam("surface") Double surface,
                              @RequestParam("price") Double price,
                              @RequestParam("description") String description,
                              @RequestParam("picture") MultipartFile picture){
-        return rentalService.postRental(id, name, surface, price, description, picture);
+        String rentalCreated = rentalService.postRental(id, name, surface, price, description, picture);
+        return new ResponseEntity<>(rentalCreated, HttpStatus.OK);
     }
 
     @Operation(
@@ -74,12 +79,13 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PutMapping("/{id}")
-    public String updateRental(@PathVariable("id") UUID id,
+    public ResponseEntity<String> updateRental(@PathVariable("id") UUID id,
                                @RequestPart(value="name", required = false) String name,
                                @RequestPart(value="surface", required = false) Double surface,
                                @RequestPart(value="price", required = false) Double price,
                                @RequestPart(value="description", required = false) String description,
                                @RequestPart(value="picture", required = false) MultipartFile picture){
-        return rentalService.updateRental(id, name, surface, price, description, picture);
+        String rentalUpdated = rentalService.updateRental(id, name, surface, price, description, picture);
+        return new ResponseEntity<>(rentalUpdated, HttpStatus.OK);
     }
 }

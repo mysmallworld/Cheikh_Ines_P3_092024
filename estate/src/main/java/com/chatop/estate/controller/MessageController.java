@@ -29,7 +29,7 @@ public class MessageController {
     })
     @PostMapping()
     public ResponseEntity<String> postMessage(@RequestParam("message") String message, @RequestHeader("Authorization") String authorizationHeader){
-        messageService.postMessage(message, authorizationHeader);
-        return new ResponseEntity<>("Message send with success", HttpStatus.OK);
+        String messageSuccess = messageService.postMessage(message, authorizationHeader);
+        return new ResponseEntity<>(messageSuccess, HttpStatus.OK);
     }
 }

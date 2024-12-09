@@ -7,8 +7,10 @@ import com.chatop.estate.repository.RentalRepository;
 import com.chatop.estate.repository.UserRepository;
 import com.chatop.estate.mapper.RentalMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,17 +39,17 @@ public class RentalService {
                     .map(rentalMapper::toDto)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while fetching all rentals: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 
     public RentalDto getRental(UUID id) {
         try {
             Rental rental = rentalRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Rental not found"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rental not found"));
             return rentalMapper.toDto(rental);
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while fetching a rental: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 
@@ -62,7 +64,7 @@ public class RentalService {
             pictureService.selectPicture(picture, rental);
 
             User owner = userRepository.findById(ownerId)
-                    .orElseThrow(() -> new RuntimeException("Owner not found"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Owner not found"));
             rental.setUser(owner);
 
             LocalDateTime now = LocalDateTime.now();
@@ -71,17 +73,16 @@ public class RentalService {
 
             rentalRepository.save(rental);
 
-            return "message: Rental created!";
+            return "message: Rental created !";
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred during rental posting: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
-
 
     public String updateRental(UUID id, String name, Double surface, Double price, String description, MultipartFile picture) {
         try {
             Rental rental = rentalRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Rental not found"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rental not found"));
 
             rental.setName(name != null ? name : rental.getName());
             rental.setSurface(surface != null ? surface : rental.getSurface());
@@ -96,7 +97,7 @@ public class RentalService {
 
             return "message: Rental updated !";
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred during rental updating: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 }
