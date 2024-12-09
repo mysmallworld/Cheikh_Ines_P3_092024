@@ -64,7 +64,7 @@ Follow these steps to install the project:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/mysmallworld/Cheikh_Ines_P3_092024.git
+   git clone https://github.com/mysmallworld/Cheikh_Ines_P3_102024.git
    ```
 
 2. **Navigate to the project directory**
