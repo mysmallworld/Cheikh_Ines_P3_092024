@@ -7,7 +7,9 @@ import com.chatop.estate.mapper.UserMapper;
 import com.chatop.estate.model.User;
 import com.chatop.estate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -28,7 +30,7 @@ public class AuthService {
         try {
             User user = userRepository.findByEmail(userDto.getEmail());
             if (user != null && user.getEmail().equals(userDto.getEmail())) {
-                throw new Exception("User already exists");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
             }
             User newUser = userMapper.toEntity(userDto);
             newUser.setPassword(authconfig.passwordEncoder().encode(newUser.getPassword()));
@@ -36,7 +38,7 @@ public class AuthService {
             String token = jwtService.generateToken(newUser);
             return token;
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred during user registration: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -45,12 +47,12 @@ public class AuthService {
             User user = userRepository.findByEmail(userDto.getEmail());
             Boolean isSamePassword = authconfig.passwordEncoder().matches(userDto.getPassword(), user.getPassword());
             if ((user != null) && !isSamePassword) {
-                throw new Exception("User password not same");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match");
             }
             String token = jwtService.generateToken(user);
             return token;
         } catch (java.lang.Exception e) {
-            throw new RuntimeException("An error occurred during user login: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 }

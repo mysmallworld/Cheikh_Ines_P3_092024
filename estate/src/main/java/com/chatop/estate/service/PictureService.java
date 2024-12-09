@@ -2,8 +2,10 @@ package com.chatop.estate.service;
 
 import com.chatop.estate.model.Rental;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,8 +37,7 @@ public class PictureService {
                 rental.setPicture(null);
             }
         } catch (IOException e) {
-            throw new RuntimeException("An error occurred while processing the picture: " + e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, e.getMessage());
         }
     }
-
 }

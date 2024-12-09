@@ -1,9 +1,11 @@
 package com.chatop.estate.service;
 
 import com.chatop.estate.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -38,7 +40,7 @@ public class JWTService {
             Jwt decodedJwt = this.jwtDecoder.decode(token);
             return decodedJwt.getClaims();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to decode token: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Failed to decode token");
         }
     }
 }

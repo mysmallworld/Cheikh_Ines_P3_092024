@@ -34,7 +34,23 @@ Before you begin, ensure you have the following installed:
 - **IntelliJ IDEA** or another IDE:  
   [Download IntelliJ IDEA](https://www.jetbrains.com/idea/).
 
-## **Configuration**
+- **MySQL**: Version 8.0.33 or later  
+    [Download MySQL](https://www.jetbrains.com/idea/).
+
+## **Configuration of Database and environement variables**
+Before starting the application, you must create the estate database in MySQL.   
+You can do this with the following command in your MySQL terminal:  
+
+```bash
+mysql -u root -p
+```
+
+Enter your password.
+
+```bash
+CREATE DATABASE estate;
+```
+
 You need to add environement variables into estate/src/main/resources/application.proporties :  
 
 **DBUrl**: url of your database.  
@@ -49,10 +65,11 @@ Follow these steps to install the project:
 1. **Clone the repository**
    ```bash
    git clone https://github.com/mysmallworld/Cheikh_Ines_P3_092024.git
+   ```
 
 2. **Navigate to the project directory**
    ```bash
-   cd Cheikh_Ines_P3_092024
+   cd Cheikh_Ines_P3_092024/estate
    ```
 
 3. **Build the project using Maven**
@@ -69,13 +86,26 @@ Follow these steps to install the project:
 The development server runs at: `http://localhost:3001/`. 
 Reload the application if you make any changes to the source files.
 
+## Swagger Documentation
+**Start the Spring Boot application:**
+```bash
+./mvnw spring-boot:run
+```
+
+**Open a web browser and go to the URL:**
+```bash
+http://localhost:3001/swagger-ui/index.html
+```
+
+There you will find the complete documentation for all the routes exposed by the application, along with options to test each API endpoint.
+
 ## Environment  
 The project uses the following key technologies:
 
 **SpringBoot**: A framework for building microservices and REST APIs.  
 **SpringSecurity**: Ensures secure authentication and authorization within the application.  
 **MySQL**: A relational database used to persist application data.   
-**Lombok**: A Java library to minimize boilerplate code.
+**Lombok**: A Java library that auto-generates boilerplate code like getters and setters.
 
 ## Versions
 - **Git**: 2.38.1
