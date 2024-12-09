@@ -69,7 +69,7 @@ Follow these steps to install the project:
 
 2. **Navigate to the project directory**
    ```bash
-   cd Cheikh_Ines_P3_092024/estate
+   cd Cheikh_Ines_P3_102024/estate
    ```
 
 3. **Build the project using Maven**
