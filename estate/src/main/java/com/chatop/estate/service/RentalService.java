@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class RentalService {
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private RentalRepository rentalRepository;
@@ -53,7 +55,7 @@ public class RentalService {
         }
     }
 
-    public String postRental(UUID ownerId, String name, Double surface, Double price, String description, MultipartFile picture) {
+    public String postRental(String authorizationHeader, String name, Double surface, Double price, String description, MultipartFile picture) {
         try {
 
             Rental rental = new Rental();
@@ -63,8 +65,8 @@ public class RentalService {
             rental.setDescription(description);
             pictureService.selectPicture(picture, rental);
 
-            User owner = userRepository.findById(ownerId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Owner not found"));
+            String userEmail = userService.getUser(authorizationHeader).getEmail();
+            User owner = userRepository.findByEmail(userEmail);
             rental.setUser(owner);
 
             LocalDateTime now = LocalDateTime.now();

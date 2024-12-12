@@ -59,14 +59,14 @@ public class RentalController {
             @ApiResponse(responseCode = "200", description = "Rental created"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
-    @PostMapping("/{id}")
-    public ResponseEntity<String> postRental(@PathVariable("id") UUID id,
+    @PostMapping("")
+    public ResponseEntity<String> postRental(@RequestHeader("Authorization") String authorizationHeader,
                              @RequestParam("name") String name,
                              @RequestParam("surface") Double surface,
                              @RequestParam("price") Double price,
                              @RequestParam("description") String description,
                              @RequestParam("picture") MultipartFile picture){
-        String rentalCreated = rentalService.postRental(id, name, surface, price, description, picture);
+        String rentalCreated = rentalService.postRental(authorizationHeader, name, surface, price, description, picture);
         return new ResponseEntity<>(rentalCreated, HttpStatus.OK);
     }
 
