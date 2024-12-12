@@ -25,14 +25,14 @@ public class MessageService {
     private RentalRepository rentalRepository;
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @Autowired
     MessageMapper messageMapper;
 
     public String postMessage(String message, String authorizationHeader){
         try {
-            String userEmail = userService.getUser(authorizationHeader).getEmail();
+            String userEmail = authService.getUser(authorizationHeader).getEmail();
             User user = userRepository.findByEmail(userEmail);
 
             Rental rental = rentalRepository.findByUserId(user.getId());

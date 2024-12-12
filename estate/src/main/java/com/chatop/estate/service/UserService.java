@@ -9,12 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
-    @Autowired
-    private JWTService jwtService;
 
     @Autowired
     private UserRepository userRepository;
@@ -22,20 +21,15 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
-    public UserResponseDto getUser(String authorizationHeader) {
+    public UserResponseDto getUserById(UUID id) {
         try {
-            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Authorization header must start with Bearer");
-            }
-            String token = authorizationHeader.substring(7);
+            Optional<User> optionalUser = userRepository.findById(id);
 
-            Map<String, Object> userToken = jwtService.decodeToken(token);
-            String userEmail = (String) userToken.get("sub");
-            User user = userRepository.findByEmail(userEmail);
-
-            if (user == null) {
+            if (optionalUser.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
+
+            User user = optionalUser.get();
 
             UserResponseDto userResponseDto = userMapper.mapUserToDto(user);
 

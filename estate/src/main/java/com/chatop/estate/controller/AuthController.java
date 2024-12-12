@@ -18,11 +18,8 @@ public class AuthController {
 
     private final AuthService authService;
 
-    private final UserService userService;
-
-    public AuthController(AuthService authService, UserService userService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
-        this.userService = userService;
     }
 
     @Operation(
@@ -63,7 +60,7 @@ public class AuthController {
     })
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> getUser(@RequestHeader("Authorization") String authorizationHeader) {
-        UserResponseDto userResponseDto = userService.getUser(authorizationHeader);
+        UserResponseDto userResponseDto = authService.getUser(authorizationHeader);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 }

@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RentalService {
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private RentalRepository rentalRepository;
@@ -33,6 +31,8 @@ public class RentalService {
 
     @Autowired
     private RentalMapper rentalMapper;
+    @Autowired
+    private AuthService authService;
 
     public List<RentalDto> getAllRentals() {
         try {
@@ -65,7 +65,7 @@ public class RentalService {
             rental.setDescription(description);
             pictureService.selectPicture(picture, rental);
 
-            String userEmail = userService.getUser(authorizationHeader).getEmail();
+            String userEmail = authService.getUser(authorizationHeader).getEmail();
             User owner = userRepository.findByEmail(userEmail);
             rental.setUser(owner);
 
