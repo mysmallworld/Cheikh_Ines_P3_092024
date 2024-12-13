@@ -1,5 +1,7 @@
 package com.chatop.estate.controller;
 
+import com.chatop.estate.dto.MessageDto;
+import com.chatop.estate.dto.SuccessResponse;
 import com.chatop.estate.service.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,9 +29,10 @@ public class MessageController {
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
-    @PostMapping()
-    public ResponseEntity<String> postMessage(@RequestParam("message") String message, @RequestHeader("Authorization") String authorizationHeader){
-        String messageSuccess = messageService.postMessage(message, authorizationHeader);
-        return new ResponseEntity<>(messageSuccess, HttpStatus.OK);
+    @PostMapping("")
+    public ResponseEntity<SuccessResponse> postMessage(@RequestBody MessageDto messageDto) {
+        String messageSuccess = messageService.postMessage(messageDto);
+        SuccessResponse successResponse = SuccessResponse.builder().message(messageSuccess).build();
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 }

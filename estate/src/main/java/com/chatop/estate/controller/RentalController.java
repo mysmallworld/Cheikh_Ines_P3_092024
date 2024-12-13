@@ -1,6 +1,8 @@
 package com.chatop.estate.controller;
 
 import com.chatop.estate.dto.RentalDto;
+import com.chatop.estate.dto.RentalsResponse;
+import com.chatop.estate.dto.SuccessResponse;
 import com.chatop.estate.service.RentalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,9 +33,10 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("")
-    public ResponseEntity<List<RentalDto>> getAllRentals(){
+    public ResponseEntity<RentalsResponse> getAllRentals(){
         List<RentalDto> listRentalDto = rentalService.getAllRentals();
-        return new ResponseEntity<>(listRentalDto, HttpStatus.OK);
+        RentalsResponse rentalsResponse = RentalsResponse.builder().rentals(listRentalDto).build();
+        return new ResponseEntity<>(rentalsResponse, HttpStatus.OK);
     }
 
     @Operation(
@@ -59,14 +62,15 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PostMapping("")
-    public ResponseEntity<String> postRental(@RequestHeader("Authorization") String authorizationHeader,
-                             @RequestParam("name") String name,
-                             @RequestParam("surface") Double surface,
-                             @RequestParam("price") Double price,
-                             @RequestParam("description") String description,
-                             @RequestParam("picture") MultipartFile picture){
+    public ResponseEntity<SuccessResponse> postRental(@RequestHeader("Authorization") String authorizationHeader,
+                                                      @RequestParam("name") String name,
+                                                      @RequestParam("surface") Double surface,
+                                                      @RequestParam("price") Double price,
+                                                      @RequestParam("description") String description,
+                                                      @RequestParam("picture") MultipartFile picture){
         String rentalCreated = rentalService.postRental(authorizationHeader, name, surface, price, description, picture);
-        return new ResponseEntity<>(rentalCreated, HttpStatus.OK);
+        SuccessResponse successResponse = SuccessResponse.builder().message(rentalCreated).build();
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     @Operation(
@@ -78,13 +82,14 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateRental(@PathVariable("id") Integer id,
+    public ResponseEntity<SuccessResponse> updateRental(@PathVariable("id") Integer id,
                                @RequestPart(value="name", required = false) String name,
                                @RequestPart(value="surface", required = false) Double surface,
                                @RequestPart(value="price", required = false) Double price,
                                @RequestPart(value="description", required = false) String description,
                                @RequestPart(value="picture", required = false) MultipartFile picture){
         String rentalUpdated = rentalService.updateRental(id, name, surface, price, description, picture);
-        return new ResponseEntity<>(rentalUpdated, HttpStatus.OK);
+        SuccessResponse successResponse = SuccessResponse.builder().message(rentalUpdated).build();
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 }
