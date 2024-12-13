@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/rentals")
@@ -46,7 +45,7 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<RentalDto> getRental(@PathVariable UUID id){
+    public ResponseEntity<RentalDto> getRental(@PathVariable Integer id){
         RentalDto rentalDto = rentalService.getRental(id);
         return new ResponseEntity<>(rentalDto, HttpStatus.OK);
     }
@@ -79,7 +78,7 @@ public class RentalController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateRental(@PathVariable("id") UUID id,
+    public ResponseEntity<String> updateRental(@PathVariable("id") Integer id,
                                @RequestPart(value="name", required = false) String name,
                                @RequestPart(value="surface", required = false) Double surface,
                                @RequestPart(value="price", required = false) Double price,

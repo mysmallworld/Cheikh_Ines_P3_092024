@@ -1,7 +1,7 @@
 package com.chatop.estate.mapper;
 
 import com.chatop.estate.dto.RegisterUserDto;
-import com.chatop.estate.dto.UserResponseDto;
+import com.chatop.estate.dto.UserResponse;
 import com.chatop.estate.model.User;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 @Component
 public class UserMapper {
-    public UserResponseDto mapUserToDto(User user) {
-        return new UserResponseDto(
+    public UserResponse mapUserToDto(User user) {
+        return new UserResponse(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),

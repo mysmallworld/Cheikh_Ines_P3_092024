@@ -1,10 +1,10 @@
 package com.chatop.estate.controller;
 
 import com.chatop.estate.dto.LoginUserDto;
+import com.chatop.estate.dto.AuthResponse;
 import com.chatop.estate.dto.RegisterUserDto;
-import com.chatop.estate.dto.UserResponseDto;
+import com.chatop.estate.dto.UserResponse;
 import com.chatop.estate.service.AuthService;
-import com.chatop.estate.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,9 +31,10 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody RegisterUserDto userDto){
+    public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterUserDto userDto){
         String token = authService.registerUser(userDto);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        AuthResponse registerResponse = AuthResponse.builder().token(token).build();
+        return new ResponseEntity<>(registerResponse, HttpStatus.OK);
     }
 
     @Operation(
@@ -45,9 +46,10 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Bad informations")
     })
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginUserDto userDto) {
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginUserDto userDto) {
         String token = authService.loginUser(userDto);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        AuthResponse loginResponse = AuthResponse.builder().token(token).build();
+        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 
     @Operation(
@@ -59,8 +61,8 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/me")
-    public ResponseEntity<UserResponseDto> getUser(@RequestHeader("Authorization") String authorizationHeader) {
-        UserResponseDto userResponseDto = authService.getUser(authorizationHeader);
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    public ResponseEntity<UserResponse> getUser(@RequestHeader("Authorization") String authorizationHeader) {
+        UserResponse userResponse = authService.getUser(authorizationHeader);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 }

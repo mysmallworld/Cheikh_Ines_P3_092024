@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +44,7 @@ public class RentalService {
         }
     }
 
-    public RentalDto getRental(UUID id) {
+    public RentalDto getRental(Integer id) {
         try {
             Rental rental = rentalRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rental not found"));
@@ -81,7 +80,7 @@ public class RentalService {
         }
     }
 
-    public String updateRental(UUID id, String name, Double surface, Double price, String description, MultipartFile picture) {
+    public String updateRental(Integer id, String name, Double surface, Double price, String description, MultipartFile picture) {
         try {
             Rental rental = rentalRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rental not found"));

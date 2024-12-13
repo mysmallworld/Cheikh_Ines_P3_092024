@@ -18,18 +18,4 @@ public class RentalMapper {
         rentalDto.setOwnerId(rental.getUser() != null ? rental.getUser().getId() : null);
         return rentalDto;
     }
-
-    public Rental toEntity(RentalDto rentalDto) {
-        if (rentalDto == null) {
-            return null;
-        }
-
-        return Rental.builder()
-                .name(rentalDto.getName())
-                .surface(rentalDto.getSurface())
-                .price(rentalDto.getPrice())
-                .picture(rentalDto.getPicture())
-                .description(rentalDto.getDescription())
-                .build();
-    }
 }

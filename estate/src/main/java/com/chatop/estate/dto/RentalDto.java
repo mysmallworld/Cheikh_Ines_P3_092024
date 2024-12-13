@@ -3,13 +3,12 @@ package com.chatop.estate.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.UUID;
 
 @Data
 public class RentalDto {
 
     @NotNull()
-    private UUID id;
+    private Integer id;
 
     @NotNull()
     private String name;
@@ -27,5 +26,5 @@ public class RentalDto {
     private String description;
 
     @NotNull()
-    private UUID ownerId;
+    private Integer ownerId;
 }
