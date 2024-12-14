@@ -33,6 +33,8 @@ public class AuthConfig {
                         .requestMatchers(
                                 "/api/auth/register",
                                 "/api/auth/login",
+                                "/pictures/**",
+                                "/uploads/**",
                                 "/api-docs.yaml",
                                 "/api-docs/**",
                                 "/api-docs",
