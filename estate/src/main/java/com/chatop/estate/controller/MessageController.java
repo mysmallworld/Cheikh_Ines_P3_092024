@@ -6,6 +6,7 @@ import com.chatop.estate.service.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class MessageController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PostMapping("")
-    public ResponseEntity<SuccessResponse> postMessage(@RequestBody MessageDto messageDto) {
+    public ResponseEntity<SuccessResponse> postMessage(@Valid  @RequestBody MessageDto messageDto) {
         String messageSuccess = messageService.postMessage(messageDto);
         SuccessResponse successResponse = SuccessResponse.builder().message(messageSuccess).build();
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
