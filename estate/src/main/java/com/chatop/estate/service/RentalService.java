@@ -89,6 +89,7 @@ public class RentalService {
             rental.setSurface(surface != null ? surface : rental.getSurface());
             rental.setPrice(price != null ? price : rental.getPrice());
             rental.setDescription(description != null ? description : rental.getDescription());
+            rental.setUpdatedAt(LocalDateTime.now());
 
             if(picture != null){
                 pictureService.selectPicture(picture, rental);

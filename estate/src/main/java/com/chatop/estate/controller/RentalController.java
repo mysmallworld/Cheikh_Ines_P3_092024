@@ -83,11 +83,11 @@ public class RentalController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<SuccessResponse> updateRental(@PathVariable("id") Integer id,
-                               @RequestPart(value="name", required = false) String name,
-                               @RequestPart(value="surface", required = false) Double surface,
-                               @RequestPart(value="price", required = false) Double price,
-                               @RequestPart(value="description", required = false) String description,
-                               @RequestPart(value="picture", required = false) MultipartFile picture){
+                               @RequestParam(value="name", required = false) String name,
+                               @RequestParam(value="surface", required = false) Double surface,
+                               @RequestParam(value="price", required = false) Double price,
+                               @RequestParam(value="description", required = false) String description,
+                               @RequestParam(value="picture", required = false) MultipartFile picture){
         String rentalUpdated = rentalService.updateRental(id, name, surface, price, description, picture);
         SuccessResponse successResponse = SuccessResponse.builder().message(rentalUpdated).build();
         return new ResponseEntity<>(successResponse, HttpStatus.OK);

@@ -27,7 +27,7 @@ public class RentalDto {
     private String description;
 
     @NotNull()
-    private Integer ownerId;
+    private Integer owner_id;
 
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
