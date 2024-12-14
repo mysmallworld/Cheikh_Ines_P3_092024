@@ -86,9 +86,8 @@ public class RentalController {
                                @RequestParam(value="name", required = false) String name,
                                @RequestParam(value="surface", required = false) Double surface,
                                @RequestParam(value="price", required = false) Double price,
-                               @RequestParam(value="description", required = false) String description,
-                               @RequestParam(value="picture", required = false) MultipartFile picture){
-        String rentalUpdated = rentalService.updateRental(id, name, surface, price, description, picture);
+                               @RequestParam(value="description", required = false) String description){
+        String rentalUpdated = rentalService.updateRental(id, name, surface, price, description);
         SuccessResponse successResponse = SuccessResponse.builder().message(rentalUpdated).build();
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }

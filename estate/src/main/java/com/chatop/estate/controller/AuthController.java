@@ -8,6 +8,7 @@ import com.chatop.estate.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterUserDto userDto){
+    public ResponseEntity<AuthResponse> registerUser(@Valid @RequestBody RegisterUserDto userDto){
         String token = authService.registerUser(userDto);
         AuthResponse registerResponse = AuthResponse.builder().token(token).build();
         return new ResponseEntity<>(registerResponse, HttpStatus.OK);
@@ -46,7 +47,7 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Bad informations")
     })
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginUserDto userDto) {
+    public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody LoginUserDto userDto) {
         String token = authService.loginUser(userDto);
         AuthResponse loginResponse = AuthResponse.builder().token(token).build();
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
