@@ -1,5 +1,6 @@
 package com.chatop.estate.service;
 
+import com.chatop.estate.dto.MessageDto;
 import com.chatop.estate.mapper.MessageMapper;
 import com.chatop.estate.model.Message;
 import com.chatop.estate.model.Rental;
@@ -25,19 +26,13 @@ public class MessageService {
     private RentalRepository rentalRepository;
 
     @Autowired
-    private AuthService authService;
-
-    @Autowired
     MessageMapper messageMapper;
 
-    public String postMessage(String message, String authorizationHeader){
+    public String postMessage(MessageDto messageDto){
         try {
-            String userEmail = authService.getUser(authorizationHeader).getEmail();
-            User user = userRepository.findByEmail(userEmail);
-
-            Rental rental = rentalRepository.findByUserId(user.getId());
-
-            Message newMessage = messageMapper.toEntity(message, user, rental);
+            User user = userRepository.findById(messageDto.getUser_id()).get();
+            Rental rental = rentalRepository.findById(messageDto.getRental_id()).get();
+            Message newMessage = messageMapper.toEntity(messageDto.getMessage(), user, rental);
             messageRepository.save(newMessage);
             return "Message send with success";
         } catch (Exception e){

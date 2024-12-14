@@ -15,21 +15,9 @@ public class RentalMapper {
         rentalDto.setPrice(rental.getPrice());
         rentalDto.setPicture(rental.getPicture());
         rentalDto.setDescription(rental.getDescription());
-        rentalDto.setOwnerId(rental.getUser() != null ? rental.getUser().getId() : null);
+        rentalDto.setOwner_id(rental.getUser() != null ? rental.getUser().getId() : null);
+        rentalDto.setCreated_at(rental.getCreatedAt());
+        rentalDto.setUpdated_at(rental.getUpdatedAt());
         return rentalDto;
-    }
-
-    public Rental toEntity(RentalDto rentalDto) {
-        if (rentalDto == null) {
-            return null;
-        }
-
-        return Rental.builder()
-                .name(rentalDto.getName())
-                .surface(rentalDto.getSurface())
-                .price(rentalDto.getPrice())
-                .picture(rentalDto.getPicture())
-                .description(rentalDto.getDescription())
-                .build();
     }
 }

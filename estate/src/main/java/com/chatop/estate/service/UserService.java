@@ -1,6 +1,6 @@
 package com.chatop.estate.service;
 
-import com.chatop.estate.dto.UserResponseDto;
+import com.chatop.estate.dto.UserResponse;
 import com.chatop.estate.mapper.UserMapper;
 import com.chatop.estate.model.User;
 import com.chatop.estate.repository.UserRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,7 +20,7 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
-    public UserResponseDto getUserById(UUID id) {
+    public UserResponse getUserById(Integer id) {
         try {
             Optional<User> optionalUser = userRepository.findById(id);
 
@@ -31,7 +30,7 @@ public class UserService {
 
             User user = optionalUser.get();
 
-            UserResponseDto userResponseDto = userMapper.mapUserToDto(user);
+            UserResponse userResponseDto = userMapper.mapUserToDto(user);
 
             return userResponseDto;
         } catch (Exception e) {

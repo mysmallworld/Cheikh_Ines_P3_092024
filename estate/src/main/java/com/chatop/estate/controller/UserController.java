@@ -1,6 +1,6 @@
 package com.chatop.estate.controller;
 
-import com.chatop.estate.dto.UserResponseDto;
+import com.chatop.estate.dto.UserResponse;
 import com.chatop.estate.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -30,8 +29,8 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID id) {
-        UserResponseDto userResponseDto = userService.getUserById(id);
+    public ResponseEntity<UserResponse> getUser(@PathVariable Integer id) {
+        UserResponse userResponseDto = userService.getUserById(id);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 }

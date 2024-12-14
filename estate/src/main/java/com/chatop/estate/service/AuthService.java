@@ -3,7 +3,7 @@ package com.chatop.estate.service;
 import com.chatop.estate.dto.LoginUserDto;
 import com.chatop.estate.dto.RegisterUserDto;
 import com.chatop.estate.configuration.AuthConfig;
-import com.chatop.estate.dto.UserResponseDto;
+import com.chatop.estate.dto.UserResponse;
 import com.chatop.estate.mapper.UserMapper;
 import com.chatop.estate.model.User;
 import com.chatop.estate.repository.UserRepository;
@@ -59,7 +59,7 @@ public class AuthService {
         }
     }
 
-    public UserResponseDto getUser(String authorizationHeader) {
+    public UserResponse getUser(String authorizationHeader) {
         try {
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Authorization header must start with Bearer");
@@ -74,7 +74,7 @@ public class AuthService {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
 
-            UserResponseDto userResponseDto = userMapper.mapUserToDto(user);
+            UserResponse userResponseDto = userMapper.mapUserToDto(user);
 
             return userResponseDto;
         } catch (Exception e) {
